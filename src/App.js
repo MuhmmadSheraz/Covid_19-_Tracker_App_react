@@ -2,6 +2,7 @@ import React from "react";
 
 import Header from "./view/Header";
 import Counter from "./view/Counter";
+import Chart from './view/Chart'
 
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
     <div className="App">
       <Header />
       <Counter />
+      <Chart/>
     </div>
   );
 }
