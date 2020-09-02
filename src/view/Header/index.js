@@ -1,8 +1,6 @@
 import React from "react";
 import logo from "./assessts/logo.png";
-import skull from "./assessts/skull.png";
-import bed from "./assessts/bed.png";
-import recovered from "./assessts/recovered.png";
+import Container from "@material-ui/core/Container";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -17,7 +15,7 @@ export default function Header() {
   return (
     <div className="headerWrapper">
       <Grid container>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} md={6}>
           <div className="img_sec">
             <img
               className="headerImage"
@@ -30,12 +28,10 @@ export default function Header() {
             </div>
           </div>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} md={6}>
           <div className="content_sec">
-            <div className="content_inside">
-              <Box m={2} className="heading1">
-                ACT NOW BEFORE ITS TOO LATE.
-              </Box>
+            <Container maxWidth="sm">
+              <Box className="heading1">ACT NOW BEFORE ITS TOO LATE.</Box>
               <Box m={2} className="heading2">
                 W.H.O GUIDLINES FOR PREVENTATION
               </Box>
@@ -57,7 +53,7 @@ export default function Header() {
                   </li>
                 </ol>
               </Box>
-            </div>
+            </Container>
           </div>
         </Grid>
       </Grid>

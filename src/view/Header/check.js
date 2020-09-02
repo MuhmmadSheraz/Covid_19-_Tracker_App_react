@@ -1,6 +1,6 @@
 import React from "react";
 import "./header.css";
-import logo from "./assessts/logo.png";
+
 import Container from "@material-ui/core/Container";
 
 const Header = () => {

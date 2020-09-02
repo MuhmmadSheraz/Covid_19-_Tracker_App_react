@@ -1,7 +1,6 @@
 * {
   margin: 0;
   padding: 0;
-  
 }
 .headerWrapper {
   min-height: 100vh;
@@ -14,27 +13,22 @@
   display: flex;
   position: relative;
   text-align: center;
-  
+
   overflow: hidden;
   height: 100%;
   width: 100%;
 }
 
 .content_sec {
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
   color: white;
   background-color: #0d0004;
+  margin: 0 auto;
   
-}
-.content_inside {
-    
-    width: 100%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 .headerImage {
   width: 100%;
@@ -67,6 +61,7 @@
   padding: 0px 12px;
 }
 .heading1 {
+  padding: 15px;
   font-size: 30px;
   font-weight: bold !important;
 }
