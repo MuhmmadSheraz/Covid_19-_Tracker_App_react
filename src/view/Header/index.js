@@ -11,7 +11,7 @@ import Box from "@material-ui/core/Box";
 
 import "./header.css";
 
-export default function Header() {
+export default function Header(props) {
   return (
     <div className="headerWrapper">
       <Grid container>

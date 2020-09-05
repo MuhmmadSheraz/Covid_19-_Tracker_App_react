@@ -12,10 +12,7 @@
   flex-direction: row;
 }
 
-/* canvas .chartjs-render-monitor{
-    height: 800px !important;
-    width: 800px !important;
-} */
+
 
 /* Media Queries */
 @media (max-width: 1290px) {

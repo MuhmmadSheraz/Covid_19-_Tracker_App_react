@@ -1,74 +1,92 @@
-import React from "react";
-import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import React, { useState, useEffect } from "react";
 import "./chart.css";
 import { Pie } from "react-chartjs-2";
 import { Line } from "react-chartjs-2";
+import { globalChart } from "../../config/utils";
+import {getAPI} from '../../config/utils'
 
-const initialState = {
-  labels: ["January", "February", "March", "April", "May", "June", "July"],
-  datasets: [
-    {
-      label: "My First dataset",
-      fill: false,
-      lineTension: 0.1,
-      backgroundColor: "rgba(75,192,192,0.4)",
-      borderColor: "rgba(75,192,192,1)",
-      borderCapStyle: "butt",
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: "miter",
-      pointBorderColor: "rgba(75,192,192,1)",
-      pointBackgroundColor: "#fff",
-      pointBorderWidth: 1,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: "rgba(75,192,192,1)",
-      pointHoverBorderColor: "rgba(220,220,220,1)",
-      pointHoverBorderWidth: 2,
-      pointRadius: 1,
-      pointHitRadius: 10,
-      data: [65, 59, 80, 81, 56, 55, 40],
-    },
-    {
-      label: "My First dataset",
-      fill: false,
-      lineTension: 0.1,
-      backgroundColor: "rgba(75,192,192,0.4)",
-      borderColor: "red",
-      borderCapStyle: "butt",
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: "miter",
-      pointBorderColor: "red",
-      pointBackgroundColor: "#fff",
-      pointBorderWidth: 1,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: "red",
-      pointHoverBorderColor: "rgba(220,220,220,1)",
-      pointHoverBorderWidth: 2,
-      pointRadius: 1,
-      pointHitRadius: 10,
-      data: [5, 10, 15, 20, 125, 30, 35],
-    },
-  ],
-};
-const data = {
-  labels: ["Red", "Blue", "Yellow"],
-  datasets: [
-    {
-      data: [300, 50, 100],
-      backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-      hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-    },
-  ],
-};
-let Chart = () => {
-  return (
-    <div m={3} className="chartWrapper">
+
+let Chart = (props) => {
+  const [apiData, setApiData] = useState([]);
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    let callApi = async () => {
+      const getData = await getAPI();
+      const getGlobalData = await globalChart();
+
+     setChartData(getGlobalData)
+      setApiData(getData);
+    };
+
+    callApi();
+  }, []);
+  const initialState = {
+    labels: chartData.map(({report})=>report),
+    datasets: [
+      {
+        label: "Infected",
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: "#FFC107",
+        borderColor: "#FFC107",
+        borderCapStyle: "butt",
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: "miter",
+        pointBorderColor: "#FFC107",
+        pointBackgroundColor: "#fff",
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "FFC107",
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: chartData.map(({ confirmed }) => confirmed),
+      },
+      {
+        label: "Death",
+        fill: false,
+        lineTension: 0.2,
+        backgroundColor: "#DC3545",
+        borderColor: "#DC3545",
+        borderCapStyle: "butt",
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: "miter",
+        pointBorderColor: "red",
+        pointBackgroundColor: "#DC3545",
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "red",
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        // data: [12,55,4444],
+        data: chartData.map(({deaths})=>deaths),
+      },
+    ],
+  };
+  const data = {
+    labels: [" Deaths", "Recovered", "Infected"],
+    datasets: [
+      {
+        data: Object.keys(apiData).length  && [parseFloat(apiData.death_cases.replace(/,/g, '')), parseFloat(apiData.recovery_cases.replace(/,/g, '')),parseFloat(apiData.total_cases.replace(/,/g, ''))],
+        // data:[12,67,98],
+        backgroundColor: ["#DC3545", "#28A745", "#FFC107"],
+        hoverBackgroundColor: ["#DC3545", "#28A745", "#FFC107"],
+      },
+    ],
+  };
+  return Object.keys(apiData).length===0  ? (
+    ""
+  ) : 
+    (
+  // console.log(chartData)
+// console.log([parseFloat(apiData.total_cases.replace(/,/g, ''))])
+   <div m={3} className="chartWrapper">
       <div className="chartInside">
         <div className="pie">
           <Pie
@@ -81,32 +99,14 @@ let Chart = () => {
         <div className="line">
           <Line
             data={initialState}
-            width={800}
+            width={1000}
             height={500}
             options={{ maintainAspectRatio: false }}
           />
         </div>
       </div>
     </div>
-  );
+  
+   ) ;
 };
 export default Chart;
-
-// data: [10, 20, 30, 40, 50, 60, 70]
-// data: [5, 10, 15, 20, 25, 30, 35]
-{
-  /* <div m={3} className="chartWrapper">
-<div className="chartInside">
-  <Grid container>
-    <Grid item md={4}>
-      <div className="center">
-        <Pie data={data} />
-      </div>
-    </Grid>
-    <Grid item >
-      <Line data={initialState} />
-    </Grid>
-  </Grid>
-</div>
-</div> */
-}

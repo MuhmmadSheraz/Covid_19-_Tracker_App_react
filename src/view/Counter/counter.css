@@ -1,21 +1,38 @@
 .conterData {
   position: relative;
-  /* display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%; */
+  
   height: 100%;
   color: white;
+ 
   background-color: #0d0004;
 }
 .counter_col {
+  border-radius: 10px;
   height: 100px;
   padding: 20px 5px;
   margin: 5px;
   border: 1px solid white;
   vertical-align: middle !important;
   text-align: center;
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
 }
 .big_font {
   height: 50px;
 }
+
+/* .selectBox{
+  color: white;
+  background-color: #0d0004;
+}
+.form{
+  background-color: white;
+  color: white;
+  width: 100%;
+}
+.native{
+  background-color: white;
+  color: white;
+  width: 100%;
+} */
