@@ -3,26 +3,43 @@ import "./chart.css";
 import { Pie } from "react-chartjs-2";
 import { Line } from "react-chartjs-2";
 import { globalChart } from "../../config/utils";
-import {getAPI} from '../../config/utils'
-
+// import {getAPI} from '../../config/utils'
 
 let Chart = (props) => {
   const [apiData, setApiData] = useState([]);
   const [chartData, setChartData] = useState([]);
+  useEffect(() => {
+    if (props.country === "" || props.country === "global") {
+      const showData = async () => {
+        const response = await fetch("https://disease.sh/v3/covid-19/all");
+        const data = await response.json();
 
+        setApiData(data);
+      };
+      showData();
+    } else {
+      const getCountrty = async () => {
+        const response = await fetch(
+          `https://disease.sh/v3/covid-19/countries/${props.country.toLowerCase()}`
+        );
+        const countryData = await response.json();
+
+        setApiData(countryData);
+      };
+      getCountrty();
+    }
+  }, [apiData]);
   useEffect(() => {
     let callApi = async () => {
-      const getData = await getAPI();
       const getGlobalData = await globalChart();
 
-     setChartData(getGlobalData)
-      setApiData(getData);
+      setChartData(getGlobalData);
     };
 
     callApi();
-  }, []);
+  }, [chartData]);
   const initialState = {
-    labels: chartData.map(({report})=>report),
+    labels: chartData.map(({ report }) => report),
     datasets: [
       {
         label: "Infected",
@@ -65,7 +82,7 @@ let Chart = (props) => {
         pointRadius: 1,
         pointHitRadius: 10,
         // data: [12,55,4444],
-        data: chartData.map(({deaths})=>deaths),
+        data: chartData.map(({ deaths }) => deaths),
       },
     ],
   };
@@ -73,20 +90,20 @@ let Chart = (props) => {
     labels: [" Deaths", "Recovered", "Infected"],
     datasets: [
       {
-        data: Object.keys(apiData).length  && [parseFloat(apiData.death_cases.replace(/,/g, '')), parseFloat(apiData.recovery_cases.replace(/,/g, '')),parseFloat(apiData.total_cases.replace(/,/g, ''))],
+        data: [apiData.deaths,apiData.recovered,apiData.active],
+        
         // data:[12,67,98],
         backgroundColor: ["#DC3545", "#28A745", "#FFC107"],
         hoverBackgroundColor: ["#DC3545", "#28A745", "#FFC107"],
       },
     ],
   };
-  return Object.keys(apiData).length===0  ? (
+  return Object.keys(apiData).length === 0 ? (
     ""
-  ) : 
-    (
-  // console.log(chartData)
-// console.log([parseFloat(apiData.total_cases.replace(/,/g, ''))])
-   <div m={3} className="chartWrapper">
+  ) : (
+    // console.log(chartData)
+    // console.log([parseFloat(apiData.total_cases.replace(/,/g, ''))])
+    <div m={3} className="chartWrapper">
       <div className="chartInside">
         <div className="pie">
           <Pie
@@ -106,7 +123,6 @@ let Chart = (props) => {
         </div>
       </div>
     </div>
-  
-   ) ;
+  );
 };
 export default Chart;

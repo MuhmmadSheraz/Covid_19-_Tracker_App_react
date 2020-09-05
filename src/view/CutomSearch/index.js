@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import "./search.css";
-const CustomSearch = () => {
-    const [userInput, setUserInput] = useState(""); 
-    // const [customData,setCustomData]=useState(false)
+const CustomSearch = (props) => {
+  const submit = () => {
+    props.getCountry(userInput);
+  };
+  const [userInput, setUserInput] = useState("");
+  // const [customData,setCustomData]=useState(false)
   const setData = (e) => {
     setUserInput(e.target.value);
+    
   };
 
-  const submit=()=>{
-      console.log(userInput.toLowerCase())
-  }
   return (
     <div className="search">
-      <p className="heading">Search Country</p>
+      <h1 className="heading">Search Country</h1>
       <input
         onChange={setData}
         type="text"

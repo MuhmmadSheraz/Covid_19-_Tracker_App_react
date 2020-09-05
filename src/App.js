@@ -6,13 +6,21 @@ import Counter from "./view/Counter";
 import Chart from "./view/Chart";
 import CustomSearch from "./view/CutomSearch";
 function App() {
-  
+  const [country, setCountry] = useState("");
+  useEffect(() => {
+    console.log(country)
+    
+  }, [country])
+  let getCountry = (param) => {
+
+    setCountry(param)
+  };
   return (
     <div className="App">
       <Header />
-      <CustomSearch />
-      <Counter />
-      <Chart />
+      <CustomSearch getCountry={getCountry} />
+      <Counter country={country}/>
+      <Chart country={country}/>
     </div>
   );
 }

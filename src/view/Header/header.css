@@ -65,8 +65,8 @@
   font-size: 30px;
   font-weight: bold !important;
 }
-.heading2 {
-  font-size: 20px;
+.heading {
+margin:10px 0px;
   font-weight: bold !important;
 }
 .counter {
